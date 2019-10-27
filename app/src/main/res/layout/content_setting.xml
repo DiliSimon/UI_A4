@@ -8,4 +8,71 @@
     tools:context=".SettingActivity"
     tools:showIn="@layout/activity_setting">
 
+    <EditText
+        android:id="@+id/max_withdrawl"
+        android:layout_width="102dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="92dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="98dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="88dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.744"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/max_withdrawl" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="177dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="36dp"
+        android:text="Maximum withdrawls per day:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/max_withdrawl" />
+
+    <TextView
+        android:id="@+id/min_balance"
+        android:layout_width="174dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="36dp"
+        android:text="Minimum balance for notification:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/editText2"
+        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editText2" />
+
+    <Button
+        android:id="@+id/setting_confirm"
+        android:layout_width="126dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="84dp"
+        android:text="Confirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/min_balance" />
+
+    <Button
+        android:id="@+id/setting_cancel"
+        android:layout_width="126dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="36dp"
+        android:text="Cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/setting_confirm" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
