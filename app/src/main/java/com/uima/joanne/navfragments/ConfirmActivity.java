@@ -12,6 +12,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -42,17 +46,21 @@ public class ConfirmActivity extends AppCompatActivity {
         double balance = Double.parseDouble(sharedPref.getString("balance", "0.00"));
 
 
-
         // Spinner
         Spinner spinner = (Spinner) findViewById(R.id.spinner2);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter;
+        if(transaction_type == DEPOSIT) {
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.deposit_array, android.R.layout.simple_spinner_item);
+        } else {
+            adapter = ArrayAdapter.createFromResource(this,
+                    R.array.withdraw_array, android.R.layout.simple_spinner_item);
+        }
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-
 
 
         if (transaction_type == DEPOSIT) {
@@ -97,7 +105,9 @@ public class ConfirmActivity extends AppCompatActivity {
         final ImageButton confirm = findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ArrayList<String> temp = getArrayPrefs("history");
+                ArrayList<String> amount = getArrayPrefs("history");
+                ArrayList<String> date = getDateArray("date");
+                ArrayList<String> type = getTypeArray("type");
                 String history_amount;
                 if(transaction_type == DEPOSIT){
                     history_amount = Double.toString(change_amount);
@@ -106,14 +116,22 @@ public class ConfirmActivity extends AppCompatActivity {
                     history_amount += Double.toString(change_amount);
                 }
 
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date d = new Date();
+                Spinner mySpinner = (Spinner) findViewById(R.id.spinner2);
+                String t = mySpinner.getSelectedItem().toString();
+
                 SharedPreferences sharedPref = getSharedPreferences("balance_value", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("balance", Double.toString(new_balance));
                 editor.commit();
 
-                temp.add(history_amount);
-                setArrayPrefs("history", temp);
-
+                amount.add(history_amount);
+                date.add(formatter.format(d));
+                type.add(t);
+                setArrayPrefs("history", amount);
+                setDateArray("date", date);
+                setTypeArray("type", type);
                 startActivity(new Intent(ConfirmActivity.this, MainActivity.class));
             }
         });
@@ -141,6 +159,24 @@ public class ConfirmActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public void setDateArray(String arrayName, ArrayList<String> array) {
+        SharedPreferences prefs = getSharedPreferences("transaction_date", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName +"_size", array.size());
+        for(int i=0;i<array.size();i++)
+            editor.putString(arrayName + "_" + i, array.get(i));
+        editor.apply();
+    }
+
+    public void setTypeArray(String arrayName, ArrayList<String> array) {
+        SharedPreferences prefs = getSharedPreferences("transaction_type", 0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(arrayName +"_size", array.size());
+        for(int i=0;i<array.size();i++)
+            editor.putString(arrayName + "_" + i, array.get(i));
+        editor.apply();
+    }
+
     public ArrayList<String> getArrayPrefs(String arrayName) {
         SharedPreferences prefs = getSharedPreferences("transaction_history", 0);
         int size = prefs.getInt(arrayName + "_size", 0);
@@ -149,5 +185,24 @@ public class ConfirmActivity extends AppCompatActivity {
             array.add(prefs.getString(arrayName + "_" + i, null));
         return array;
     }
+
+    public ArrayList<String> getDateArray(String arrayName) {
+        SharedPreferences prefs = getSharedPreferences("transaction_date", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        ArrayList<String> array = new ArrayList<>(size);
+        for(int i=0;i<size;i++)
+            array.add(prefs.getString(arrayName + "_" + i, null));
+        return array;
+    }
+
+    public ArrayList<String> getTypeArray(String arrayName) {
+        SharedPreferences prefs = getSharedPreferences("transaction_type", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        ArrayList<String> array = new ArrayList<>(size);
+        for(int i=0;i<size;i++)
+            array.add(prefs.getString(arrayName + "_" + i, null));
+        return array;
+    }
+
 
 }

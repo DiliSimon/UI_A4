@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -69,11 +70,18 @@ public class HistoryFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String[] transaction_history = getArrayPrefs("history");
+        final String[] transaction_history = getArrayPrefs("history");
+        final String[] transaction_date = getDateArray("date");
+        final String[] transaction_type = getTypeArray("type");
+        for(int i = 0; i < transaction_history.length; i++){
+            try {
+                transaction_history[i] += "\t" + transaction_date[i];
+            }
+            catch (Exception e){
+                transaction_history[i] += "\t" + "N.A.";
+            }
+        }
 
-
-        String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry",
-                "WebOS","Ubuntu","Windows7","Max OS X"};
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_history_fragment2, container, false);
 
@@ -81,16 +89,15 @@ public class HistoryFragment2 extends Fragment {
         ListView listView = (ListView) v.findViewById(R.id.history_list);
         listView.setAdapter(adapter);
 
+        final String[] transaction_history_2 = getArrayPrefs("history");
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0){
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    startActivity(intent);
-                }else {
-                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("transaction_amount", transaction_history_2[i]); //amount to change balance by
+                intent.putExtra("transaction_type", transaction_type[i]);
+                intent.putExtra("transaction_date", transaction_date[i]);
+                startActivity(intent);
             }
         });
 
@@ -103,6 +110,24 @@ public class HistoryFragment2 extends Fragment {
         String[] array = new String[size];
         for(int i=0;i<size;i++)
             array[i] = prefs.getString(arrayName + "_" + i, null);
+        return array;
+    }
+
+    public String[] getDateArray(String arrayName) {
+        SharedPreferences prefs = getActivity().getSharedPreferences("transaction_date", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        String[] array = new String[size];
+        for(int i=0;i<size;i++)
+            array[i] = prefs.getString(arrayName + "_" + i, null);
+        return array;
+    }
+
+    public String[] getTypeArray(String arrayName) {
+        SharedPreferences prefs = getActivity().getSharedPreferences("transaction_type", 0);
+        int size = prefs.getInt(arrayName + "_size", 0);
+        String[] array = new String[size];
+        for(int i=0;i<size;i++)
+            array[i] = (prefs.getString(arrayName + "_" + i, null));
         return array;
     }
 

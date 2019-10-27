@@ -29,6 +29,7 @@ public class ContentFrag1 extends Fragment {
                              Bundle savedInstanceState) {
 
         SharedPreferences sharedPref = this.getActivity().getSharedPreferences("balance_value", Context.MODE_PRIVATE);
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.content_frag1, container, false);
         final TextView balance = (TextView) v.findViewById(R.id.balance);
