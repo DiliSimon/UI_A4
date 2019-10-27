@@ -85,11 +85,11 @@ public class HistoryFragment2 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i == 0){
-                    Toast.makeText(getActivity(), "You clicked the first item", Toast.LENGTH_LONG).show();
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    startActivity(intent);
                 }else {
-                    Toast.makeText(getActivity(), "You clicked the second item", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), DetailActivity.class);
+                    startActivity(intent);
                 }
             }
         });
