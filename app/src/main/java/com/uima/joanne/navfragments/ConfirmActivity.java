@@ -123,6 +123,14 @@ public class ConfirmActivity extends AppCompatActivity {
 
                 SharedPreferences sharedPref = getSharedPreferences("balance_value", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
+
+                if(transaction_type == WITHDRAW) {
+                    SharedPreferences max = getSharedPreferences("setting", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor max_editor = max.edit();
+                    int current_withdraw = max.getInt("current_withdraw", 0);
+                    max_editor.putInt("current_withdraw", current_withdraw + 1);
+                    max_editor.commit();
+                }
                 editor.putString("balance", Double.toString(new_balance));
                 editor.commit();
 

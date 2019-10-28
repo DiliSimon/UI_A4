@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="deposit_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
     <string-array name="withdraw_array">
-        <item>Mercury</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
+        <item>Rent</item>
+        <item>Food</item>
+        <item>Transportation</item>
+        <item>Clothes</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="deposit_array">
+        <item>Paycheck</item>
+        <item>Transfer</item>
+        <item>Gift</item>
+        <item>Change</item>
+        <item>Other</item>
     </string-array>
 </resources>

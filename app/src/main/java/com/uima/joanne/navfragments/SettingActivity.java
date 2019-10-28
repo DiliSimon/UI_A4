@@ -25,20 +25,30 @@ public class SettingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final SharedPreferences sharedPref = this.getSharedPreferences("setting", Context.MODE_PRIVATE);
+        int max = sharedPref.getInt("max_withdraw", 0);
 
         Button confirm = (Button) findViewById(R.id.setting_confirm);
         Button cancel = (Button) findViewById(R.id.setting_cancel);
         final EditText min_balance = (EditText) findViewById((R.id.editText2));
-        final EditText max_withdrawl = (EditText) findViewById(R.id.max_withdrawl);
+        final EditText max_withdraw = (EditText) findViewById(R.id.max_withdrawl);
+        //max_withdraw.setHint(max);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedPref.edit();
-                int min = Integer.parseInt(min_balance.getText().toString());
-                int max = Integer.parseInt(max_withdrawl.getText().toString());
+                String input_1 = min_balance.getText().toString();
+                String input_2 = max_withdraw.getText().toString();
+                if(input_1.isEmpty()){
+                    input_1 = "100";
+                }
+                if(input_2.isEmpty()){
+                    input_2 = "10";
+                }
+                int min = Integer.parseInt(input_1);
+                int max = Integer.parseInt(input_2);
                 editor.putInt("min_balance", min);
-                editor.putInt("max_withdral", max);
+                editor.putInt("max_withdraw", max);
                 editor.commit();
                 finish();
             }

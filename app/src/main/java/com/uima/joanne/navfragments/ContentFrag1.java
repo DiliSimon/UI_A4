@@ -13,8 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class ContentFrag1 extends Fragment {
@@ -29,6 +32,22 @@ public class ContentFrag1 extends Fragment {
                              Bundle savedInstanceState) {
 
         SharedPreferences sharedPref = this.getActivity().getSharedPreferences("balance_value", Context.MODE_PRIVATE);
+        final SharedPreferences max = this.getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor max_editor = max.edit();
+
+        int current_withdraw = max.getInt("current_withdraw", 0);
+        int max_withdraw = max.getInt("max_withdraw", 100);
+        String last_update = max.getString("last_update", "01/01/1999");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date d = new Date();
+        String current_date = formatter.format(d);
+
+        if(!current_date.equals(last_update)){
+            current_withdraw = 0;
+            max_editor.putInt("current_withdraw", 0);
+            max_editor.putString("last_update", current_date);
+            max_editor.commit();
+        }
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.content_frag1, container, false);
@@ -122,15 +141,31 @@ public class ContentFrag1 extends Fragment {
         final ImageButton withdraw = v.findViewById(R.id.withdraw);
         withdraw.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                int transaction_type = WITHDRAW;
-                curr_input = Double.parseDouble(curr_input_view.getText().toString());
-                //necessary to catch manually entered amounts
-                Intent intent = new Intent(getActivity(), ConfirmActivity.class);
+                String last_update = max.getString("last_update", "01/01/1999");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date d = new Date();
+                String current_date = formatter.format(d);
 
-                intent.putExtra("change_amount", curr_input);
-                intent.putExtra("transaction_type", transaction_type);
+                if(!current_date.equals(last_update)){
+                    max_editor.putInt("current_withdraw", 0);
+                    max_editor.putString("last_update", current_date);
+                    max_editor.commit();
+                }
+                int current_withdraw = max.getInt("current_withdraw", 0);
+                int max_withdraw = max.getInt("max_withdraw", 100);
+                if(current_withdraw >= max_withdraw){
+                    Toast.makeText(getActivity(), "You have reached max withdraws per day", Toast.LENGTH_SHORT);
+                }else {
+                    int transaction_type = WITHDRAW;
+                    curr_input = Double.parseDouble(curr_input_view.getText().toString());
+                    //necessary to catch manually entered amounts
+                    Intent intent = new Intent(getActivity(), ConfirmActivity.class);
 
-                startActivity(intent);
+                    intent.putExtra("change_amount", curr_input);
+                    intent.putExtra("transaction_type", transaction_type);
+
+                    startActivity(intent);
+                }
             }
         });
 
