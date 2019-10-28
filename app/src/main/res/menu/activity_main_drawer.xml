@@ -3,33 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
 
-    <item android:title="Fragments">
+    <item android:title="Functions">
         <menu>
             <item
                 android:id="@+id/frag1"
-                android:title="Fragment 1" />
-            <item
-                android:id="@+id/frag2"
-                android:title="Fragment 2" />
+                android:title="Bank" />
             <item
                 android:id="@+id/history"
                 android:title="History" />

@@ -111,15 +111,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.frag1) {
+        if (id == R.id.frag1) {
             transaction = getSupportFragmentManager().beginTransaction();
 
 // Replace whatever is in the fragment_container view with this fragment,
@@ -130,16 +122,6 @@ public class MainActivity extends AppCompatActivity
 // Commit the transaction
             transaction.commit();
 
-        } else if (id == R.id.frag2) {
-            transaction = getSupportFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, scndFrag);
-            transaction.addToBackStack(null);
-
-// Commit the transaction
-            transaction.commit();
         } else if(id == R.id.history) {
             transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, histFrag2);
